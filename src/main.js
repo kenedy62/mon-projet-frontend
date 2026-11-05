@@ -31,3 +31,14 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+import axios from 'axios';
+
+const apiClient = axios.create({
+  // En production sur Vercel, l'URL relative se basera sur votre domaine
+  // En développement local, vous pouvez garder http://localhost:3000
+  baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000',
+  timeout: 10000,
+});
+
+export default apiClient;
+
