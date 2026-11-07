@@ -4,11 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import axios from  '@/services/api';
+import axios from 'axios'; // Utilisez l'import de base d'axios ici pour configurer l'intercepteur global
 
 loadFonts()
 
-createApp(App).use(router)
+createApp(App)
   .use(router)
   .use(store)
   .use(vuetify)
@@ -31,12 +31,4 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-import axios from '@/api';
-
-const apiClient = axios.create({
-
-  timeout: 10000,
-});
-
-export default apiClient;
 
