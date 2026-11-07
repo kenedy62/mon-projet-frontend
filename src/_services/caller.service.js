@@ -1,4 +1,4 @@
-import axios from '@/api';
+import axios from "axios";
 import { accountService } from "./account.service";
 //import router from '@/router';
 
