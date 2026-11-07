@@ -90,7 +90,9 @@ export default {
 </script>
 <script setup>
   import { ref, onMounted } from 'vue';
-import axios from  '@/services/api';
+// À remplacer par votre fichier réel (ex: caller.service)
+import Axios from '@/_services/caller.service'; 
+
 
 // 🎯 Variables réactives pour stocker les coordonnées de l'administrateur
 const adminWhatsApp = ref("237600000000"); // Valeur du Cameroun par défaut en attendant l'API

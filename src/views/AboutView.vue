@@ -486,7 +486,9 @@ export default {
 
 import {  computed } from 'vue'; // Si erreur sur 'react', remplacez par 'vue'
 import { useRouter, useRoute } from 'vue-router';
-import axios from  '@/api';
+// Dans AboutView.vue et AdminView.vue, pointez vers votre instance centrale
+import Axios from '@/_services/caller.service';
+
 
 
 // 2. INITIALISATION IMMÉDIATE DES INSTANCES (Pour éviter les erreurs "no-undef") 🎯

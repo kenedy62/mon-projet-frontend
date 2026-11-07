@@ -195,7 +195,9 @@
 import { accountService } from '@/_services';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'; 
-import axios from  '@/api';
+// Dans AboutView.vue et AdminView.vue, pointez vers votre instance centrale
+import Axios from '@/_services/caller.service';
+
 
 // Initialisation du routeur pour les redirections
 const router = useRouter(); 
