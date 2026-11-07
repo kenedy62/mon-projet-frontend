@@ -486,7 +486,7 @@ export default {
 
 import {  computed } from 'vue'; // Si erreur sur 'react', remplacez par 'vue'
 import { useRouter, useRoute } from 'vue-router';
-import axios from  '@/services/api';
+import axios from  '@/api';
 
 
 // 2. INITIALISATION IMMÉDIATE DES INSTANCES (Pour éviter les erreurs "no-undef") 🎯

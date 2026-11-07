@@ -351,7 +351,7 @@ Gestion des Commentaires
 
     <script setup>
 import { ref, onMounted } from 'vue';
-import axios from  '@/services/api';
+import axios from  '@/api';
 
 const search = ref('');
 const comments = ref([]);

@@ -605,7 +605,7 @@
 // ==========================================
 import { useRouter, useRoute } from 'vue-router';
 import { produitService } from '@/_services/produit.service';
-import axios from '@/services/api';
+import axios from '@/api';
 
 // ==========================================
 // 2. INITIALISATION DES INSTANCES DE ROUTAGE

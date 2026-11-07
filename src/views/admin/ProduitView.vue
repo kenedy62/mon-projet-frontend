@@ -356,7 +356,7 @@
 // 1. IMPORTS DES MODULES (Toujours en premier)
 // ==========================================
 import {  onMounted } from 'vue'; // 🎯 FIX : 'ref' ajouté aux imports fondamentaux
-import axios from  '@/services/api';
+import axios from  '@/api';
 import { produitService } from '@/_services/produit.service'; // Assurez-vous que le chemin est exact
 
 

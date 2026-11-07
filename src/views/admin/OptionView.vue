@@ -192,7 +192,7 @@
     </script>
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import axios from  '@/services/api';
+import axios from  '@/api';
 
 // Variables d'état existantes
 const optionDeleteDialog = ref(false); // Ouvre/ferme la modale de question (true/false)
