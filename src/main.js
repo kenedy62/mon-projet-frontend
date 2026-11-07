@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import axios from 'axios';
+import axios from '@/api';
 
 loadFonts()
 
@@ -31,7 +31,7 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-import axios from 'axios';
+import axios from '@/api';
 
 const apiClient = axios.create({
   // En production sur Vercel, l'URL relative se basera sur votre domaine
