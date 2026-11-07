@@ -4,7 +4,8 @@ import { accountService } from "./account.service";
 
 const Axios = axios.create({
     // Checks standard NODE_ENV OR if running inside Vercel's hosting environment
-    baseURL: (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') ? '' : 'http://localhost:3000'
+   baseURL: (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') ? '' : 'http://localhost:3000'
+
 });
 
 
