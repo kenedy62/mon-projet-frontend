@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import axios from 'axios'; // Utilisez l'import de base d'axios ici pour configurer l'intercepteur global
+import axios from 'axios'; // Global Axios module import
 
 loadFonts()
 
@@ -14,21 +14,17 @@ createApp(App)
   .use(vuetify)
   .mount('#app')
 
-// 🎯 Cet intercepteur écoute toutes les réponses du backend
+// Response interceptor setup
 axios.interceptors.response.use(
   (response) => response, 
   (error) => {
-    // Si votre serveur renvoie une erreur 401 (Token expiré / non valide)
     if (error.response && error.response.status === 401) {
       console.warn("Session expirée. Déconnexion automatique.");
-      
-      // 🧽 Nettoyage du stockage local
       localStorage.removeItem('token'); 
-      
-      // 🚀 Redirection instantanée vers votre page login existante
       router.push('/admin'); 
     }
     return Promise.reject(error);
   }
 );
 
+// Ensure NO "const apiClient = axios.create({...})" remains at the bottom of this file!
