@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import axios from '@/api';
+import axios from  '@/services/api';
 
 loadFonts()
 
@@ -34,9 +34,7 @@ axios.interceptors.response.use(
 import axios from '@/api';
 
 const apiClient = axios.create({
-  // En production sur Vercel, l'URL relative se basera sur votre domaine
-  // En développement local, vous pouvez garder http://localhost:3000
-  //baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000',
+
   timeout: 10000,
 });
 

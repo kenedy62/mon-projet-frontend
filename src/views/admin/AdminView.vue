@@ -195,7 +195,7 @@
 import { accountService } from '@/_services';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'; 
-import axios from '@/api';
+import axios from  '@/services/api';
 
 // Initialisation du routeur pour les redirections
 const router = useRouter(); 

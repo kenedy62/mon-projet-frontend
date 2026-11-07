@@ -166,7 +166,7 @@ export default {
 <script setup>
 import { useGoTo } from 'vuetify'
 import { useRouter, useRoute } from 'vue-router';
-import axios from '@/api'
+import axios from  '@/services/api'
 const goTo = useGoTo()
 // function valide () {
 

@@ -189,7 +189,6 @@ const statsCards = computed(() => [
 const fetchDashboardStats = () => {
   // L'URL propre sans le double mot dashboard 🎯
   produitService.getDashboardStats()
-  //axios.get('http://localhost:3000/api/dashboard/stats')
     .then(response => {
       // 1. Stockage des compteurs card
       apiStats.value = response.data;

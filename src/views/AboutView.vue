@@ -486,7 +486,7 @@ export default {
 
 import {  computed } from 'vue'; // Si erreur sur 'react', remplacez par 'vue'
 import { useRouter, useRoute } from 'vue-router';
-import axios from '@/api';
+import axios from  '@/services/api';
 
 
 // 2. INITIALISATION IMMÉDIATE DES INSTANCES (Pour éviter les erreurs "no-undef") 🎯
@@ -566,7 +566,6 @@ const fetchProductDetails = () => {
 
   // On appelle la route GET unique de votre backend Express
   produitService.getProduit(productId)
- // axios.get(`http://localhost:3000/api/products/${productId}`)
     .then((response) => {
       produit.value = response.data;
        console.log(produit.value)
