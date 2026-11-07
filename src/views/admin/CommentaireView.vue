@@ -351,7 +351,7 @@ Gestion des Commentaires
 
     <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import axios from '@/api';
 
 const search = ref('');
 const comments = ref([]);
@@ -374,7 +374,7 @@ const modMessage = ref('');          // Holds the status text message response s
 
 // Récupérer la totalité des avis pour la modération (unchanged)
 const fetchAllComments = () => {
-  axios.get('http://localhost:3000/api/comments/admin/all')
+  axios.get('/api/comments/admin/all')
     .then(response => {
       comments.value = response.data;
       console.log(response.data);
@@ -384,7 +384,7 @@ const fetchAllComments = () => {
 
 // Fonction déclenchée par vos boutons d'action - UPGRADED 🎯
 const updateStatus = (id, newStatus) => {
-  axios.put(`http://localhost:3000/api/comments/admin/moderate/${id}`, { status: newStatus })
+  axios.put(`/api/comments/admin/moderate/${id}`, { status: newStatus })
     .then(() => {
       // 1. Configure the text message based on the chosen status string action (Approuvé / Rejeté)
       if (newStatus === 'approved') {

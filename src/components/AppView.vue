@@ -166,7 +166,7 @@ export default {
 <script setup>
 import { useGoTo } from 'vuetify'
 import { useRouter, useRoute } from 'vue-router';
-import axios from 'axios'
+import axios from '@/api'
 const goTo = useGoTo()
 // function valide () {
 
@@ -203,7 +203,7 @@ const handleModalLogin = () => {
   if (!isLoginFormValid.value) return;
   isLoginLoading.value = true;
 
-  axios.post('http://localhost:3000/api/auth/login', loginPayload.value)
+  axios.post('/api/auth/login', loginPayload.value)
     .then((response) => {
       localStorage.setItem('client_token', response.data.token);
       localStorage.setItem('client_email', loginPayload.value.email);

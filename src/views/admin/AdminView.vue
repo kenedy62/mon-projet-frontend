@@ -195,7 +195,7 @@
 import { accountService } from '@/_services';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'; 
-import axios from 'axios';
+import axios from '@/api';
 
 // Initialisation du routeur pour les redirections
 const router = useRouter(); 
@@ -235,7 +235,7 @@ const handleModalClose = () => {
 
 // Récupérer les informations du profil au chargement
 const loadAdminProfile = () => {
-  axios.get('http://localhost:3000/api/admin/settings')
+  axios.get('/api/admin/settings')
     .then(response => {
       profileForm.value.email = response.data.email || '';
       profileForm.value.whatsappNumber = response.data.whatsappNumber || '';

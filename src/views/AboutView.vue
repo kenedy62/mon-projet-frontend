@@ -486,7 +486,7 @@ export default {
 
 import {  computed } from 'vue'; // Si erreur sur 'react', remplacez par 'vue'
 import { useRouter, useRoute } from 'vue-router';
-import axios from 'axios';
+import axios from '@/api';
 
 
 // 2. INITIALISATION IMMÉDIATE DES INSTANCES (Pour éviter les erreurs "no-undef") 🎯
@@ -535,7 +535,7 @@ const whatsAppUrl = computed(() => {
 onMounted(() => {
   fetchProductDetails();
   
-  axios.get('http://localhost:3000/api/admin/settings')
+  axios.get('/api/admin/settings')
     .then(res => {
       if (res.data.whatsappNumber) {
         adminPhone.value = res.data.whatsappNumber; // 🎯 Le numéro devient dynamique !
@@ -548,7 +548,7 @@ onMounted(() => {
 
 // Récupérer le numéro WhatsApp de l'administrateur depuis la base de données
 const loadWhatsAppNumber = () => {
-  axios.get('http://localhost:3000/api/admin/settings')
+  axios.get('/api/admin/settings')
     .then(res => {
       if (res.data && res.data.whatsappNumber) {
         adminPhone.value = res.data.whatsappNumber;
@@ -583,7 +583,7 @@ const produit = ref(null);
 
 // Récupérer les commentaires publics associés au produit
 const fetchComments = () => {
-  axios.get(`http://localhost:3000/api/comments/public/${route.params.id}`)
+  axios.get(`/api/comments/public/${route.params.id}`)
     .then((response) => {
       comments.value = response.data || []; 
     })
@@ -594,7 +594,7 @@ const fetchComments = () => {
 
 // Récupérer le produit star de la page d'accueil
 const fetchTopProduct = () => {
-  axios.get('http://localhost:3000/api/highlight/top')
+  axios.get('/api/highlight/top')
     .then(response => {
       topProduct.value = response.data;
     })
@@ -610,7 +610,7 @@ const submitComment = () => {
     rating: newComment.value.rating
   };
 
-  axios.post('http://localhost:3000/api/comments', payload)
+  axios.post('/api/comments', payload)
     .then((response) => {
       commentSuccess.value = true;
       commentDialog.value = true;
@@ -646,7 +646,7 @@ const handleModalLogin = () => {
   if (!isLoginFormValid.value) return;
   isLoginLoading.value = true;
 
-  axios.post('http://localhost:3000/api/auth/login', loginPayload.value)
+  axios.post('/api/auth/login', loginPayload.value)
     .then((response) => {
       localStorage.setItem('client_token', response.data.token);
       localStorage.setItem('client_email', loginPayload.value.email);

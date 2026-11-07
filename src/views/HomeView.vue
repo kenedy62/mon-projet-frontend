@@ -605,7 +605,7 @@
 // ==========================================
 import { useRouter, useRoute } from 'vue-router';
 import { produitService } from '@/_services/produit.service';
-import axios from 'axios';
+import axios from '@/api';
 
 // ==========================================
 // 2. INITIALISATION DES INSTANCES DE ROUTAGE
@@ -664,7 +664,7 @@ const fetchPublicProduits = () => {
 
 // Récupérer le produit le plus populaire (Star Product)
 const fetchTopProduct = () => {
-  axios.get('http://localhost:3000/api/highlight/top')
+  axios.get('/api/highlight/top')
     .then(response => {
       console.log("Produit le plus populaire reçu :", response.data);
       topProduct.value = response.data;
@@ -688,12 +688,12 @@ const onSubmit = () => {
   };
 
   // Étape 1 : Création du compte client
-  axios.post('http://localhost:3000/api/public/signup', payload)
+  axios.post('/api/public/signup', payload)
     .then((signupResponse) => {
       console.log("Compte créé avec succès, lancement de la connexion automatique...");
       
       // Étape 2 : Lancement immédiat de l'Auto-Login avec le même payload
-      return axios.post('http://localhost:3000/api/public/login', payload);
+      return axios.post('/api/public/login', payload);
     })
     .then((loginResponse) => {
       // Étape 3 : Stockage sécurisé des identifiants clients
@@ -754,7 +754,7 @@ const handleModalLogin = () => {
   isLoginLoading.value = true;
 
   // Targeting your dedicated split public client endpoint cleanly
-  axios.post('http://localhost:3000/api/public/login', loginPayload.value)
+  axios.post('/api/public/login', loginPayload.value)
     .then((response) => {
       localStorage.setItem('client_token', response.data.token);
       localStorage.setItem('client_email', loginPayload.value.email);

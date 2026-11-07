@@ -90,7 +90,7 @@ export default {
 </script>
 <script setup>
   import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import axios from '@/api';
 
 // 🎯 Variables réactives pour stocker les coordonnées de l'administrateur
 const adminWhatsApp = ref("237600000000"); // Valeur du Cameroun par défaut en attendant l'API
@@ -98,7 +98,7 @@ const facebookUrl = ref("https://facebook.com"); // 👈 Modifiez avec votre vra
 
 // Fonction pour récupérer le numéro WhatsApp configuré en base de données
 const fetchFooterSettings = () => {
-  axios.get('http://localhost:3000/api/admin/settings')
+  axios.get('/api/admin/settings')
     .then(response => {
       // 🎯 DIAGNOSTIC LOG: Right-click your browser, click Inspect -> Console to see this layout
       console.log("Raw Footer Payload Data From Backend:", response.data);

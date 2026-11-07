@@ -356,7 +356,7 @@
 // 1. IMPORTS DES MODULES (Toujours en premier)
 // ==========================================
 import {  onMounted } from 'vue'; // 🎯 FIX : 'ref' ajouté aux imports fondamentaux
-import axios from 'axios';
+import axios from '@/api';
 import { produitService } from '@/_services/produit.service'; // Assurez-vous que le chemin est exact
 
 
@@ -444,7 +444,7 @@ const reset = () => {
 
 // Charger les options d'ingrédients et bienfaits configurés par l'admin
 const loadAutocompleteOptions = () => {
-  axios.get('http://localhost:3000/api/options')
+  axios.get('/api/options')
     .then(response => {
       const allOptions = response.data || [];
       defaultIngredients.value = allOptions.filter(o => o.type === 'ingredient').map(o => o.name);
