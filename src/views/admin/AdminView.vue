@@ -195,109 +195,84 @@
 import { accountService } from '@/_services';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'; 
-// Dans AboutView.vue et AdminView.vue, pointez vers votre instance centrale
+// 🎯 Importation alignée avec votre instance centrale d'API
 import Axios from '@/_services/caller.service';
-
 
 // Initialisation du routeur pour les redirections
 const router = useRouter(); 
 
-// États des formulaires existants
+// États des formulaires et de la modale
 const profileForm = ref({ email: '', whatsappNumber: '', facebookUrl: '' });
 const passwordForm = ref({ current: '', new: '' });
-// ==========================================
-// 🎯 NOUVELLES VARIABLES DE CONTRÔLE DE LA MODALE PROFIL
-// ==========================================
-const profileModalDialog = ref(false);   // Ouvre/ferme la modale (true/false)
-const profileModalSuccess = ref(true);   // Style Vert (Succès) ou Rouge (Échec)
-const profileModalMessage = ref('');     // Texte dynamique affiché
-const profileModalIcon = ref('mdi-check-circle-outline'); // Icône dynamique
-const isPasswordChange = ref(false);     // Détecte s'il faut rediriger vers le login après fermeture
 
-// Fonction utilitaire pour déclencher la modale d'alerte Vuetify
-const triggerProfileModal = (message, isSuccess = true, icon = 'mdi-check-circle-outline', forceLogout = false) => {
-  profileModalMessage.value = message;
-  profileModalSuccess.value = isSuccess;
-  profileModalIcon.value = icon;
-  isPasswordChange.value = forceLogout;
-  profileModalDialog.value = true;
+const profileModalDialog = ref(false);
+const profileModalSuccess = ref(true);
+const profileModalIcon = ref('mdi-check-circle-outline');
+const profileModalMessage = ref('');
+const isPasswordChange = ref(false);
+
+// Récupération des paramètres au chargement
+const loadAdminProfile = () => {
+  Axios.get('/api/admin/settings')
+    .then(response => {
+      if (response.data) {
+        // Adaptation si MongoDB renvoie un tableau ou un objet direct
+        const data = Array.isArray(response.data) ? response.data[0] : response.data;
+        profileForm.value.email = data.email || '';
+        profileForm.value.whatsappNumber = data.whatsappNumber || '';
+        profileForm.value.facebookUrl = data.facebookUrl || '';
+      }
+    })
+    .catch(error => {
+      console.error("Erreur lors du chargement du profil admin :", error);
+    });
 };
 
-// Fonction appelée lors du clic sur le bouton de fermeture de la modale 🎯
+// Sauvegarde des coordonnées professionnelles
+const saveContactInfo = () => {
+  isPasswordChange.value = false;
+  Axios.post('/api/admin/settings', profileForm.value)
+    .then(() => {
+      profileModalSuccess.value = true;
+      profileModalIcon.value = 'mdi-check-circle-outline';
+      profileModalMessage.value = "Vos coordonnées professionnelles ont été enregistrées avec succès.";
+      profileModalDialog.value = true;
+    })
+    .catch(error => {
+      profileModalSuccess.value = false;
+      profileModalIcon.value = 'mdi-alert-circle-outline';
+      profileModalMessage.value = "Impossible d'enregistrer les coordonnées. Veuillez réessayer.";
+      profileModalDialog.value = true;
+      console.error(error);
+    });
+};
+
+// Modification du mot de passe
+const savePassword = () => {
+  isPasswordChange.value = true;
+  Axios.post('/api/admin/update-password', passwordForm.value)
+    .then(() => {
+      profileModalSuccess.value = true;
+      profileModalIcon.value = 'mdi-lock-check-outline';
+      profileModalMessage.value = "Votre mot de passe a été modifié. Vous devez vous reconnecter.";
+      profileModalDialog.value = true;
+    })
+    .catch(error => {
+      profileModalSuccess.value = false;
+      profileModalIcon.value = 'mdi-lock-alert-outline';
+      profileModalMessage.value = "Le mot de passe actuel est incorrect ou invalide.";
+      profileModalDialog.value = true;
+      console.error(error);
+    });
+};
+
+// Gestion de la fermeture de la modale
 const handleModalClose = () => {
   profileModalDialog.value = false;
-  
-  // 🚀 Si le mot de passe a été changé avec succès, on applique le nettoyage et la redirection absolue
   if (isPasswordChange.value && profileModalSuccess.value) {
-    localStorage.removeItem('token'); // Supprime le token administrateur
-    localStorage.removeItem('auth_token'); // Supprime l'autre clé si présente
-    router.push('/admin'); // Redirection vers votre page de connexion d'origine
+    localStorage.removeItem('auth_token');
+    router.push('/admin'); // Redirection vers l'interface de connexion
   }
-};
-
-// Récupérer les informations du profil au chargement
-const loadAdminProfile = () => {
-  axios.get('/api/admin/settings')
-    .then(response => {
-      profileForm.value.email = response.data.email || '';
-      profileForm.value.whatsappNumber = response.data.whatsappNumber || '';
-      // 🎯 FIX : Ne pas oublier de charger le lien Facebook existant pour pré-remplir l'input !
-      profileForm.value.facebookUrl = response.data.facebookUrl || '';
-    })
-    .catch(error => console.error("Erreur de chargement du profil :", error));
-};
-
-// Enregistrer les coordonnées (Email, WhatsApp, Facebook) 🎯
-const saveContactInfo = () => {
-  // 🎯 FIX : On passe le facebookUrl au bon endroit, dans les coordonnées de l'admin !
-  const payload = { 
-    email: profileForm.value.email, 
-    whatsappNumber: profileForm.value.whatsappNumber,
-    facebookUrl: profileForm.value.facebookUrl 
-  };
-
-  accountService.updateSettings(payload)
-    .then(() => {
-      // 🎯 Remplacement de l'alert() par la modale verte Vuetify
-      triggerProfileModal(
-        "Vos coordonnées professionnelles (E-mail, numéro WhatsApp et lien Facebook) ont été enregistrées et synchronisées avec succès !",
-        true,
-        'mdi-card-account-phone-outline',
-        false // Pas de déconnexion requise pour cette action
-      );
-      loadAdminProfile(); // Recharge les données fraîches
-    })
-    .catch(error => {
-      const errorMsg = error.response?.data?.error || "Une erreur est survenue lors de la mise à jour.";
-      triggerProfileModal(errorMsg, false, 'mdi-alert-octagon-outline', false);
-    });
-};
-
-// Sauvegarde du mot de passe sécurisé 🎯
-const savePassword = () => {
-  const payload = { 
-    currentPassword: passwordForm.value.current, 
-    newPassword: passwordForm.value.new
-  };
-
-  accountService.updateSettings(payload)
-    .then(() => {
-      // Réinitialisation instantanée des champs de saisie
-      passwordForm.value.current = '';
-      passwordForm.value.new = '';
-
-      // 🎯 Remplacement de l'alert() par la modale verte Vuetify avec paramètre de déconnexion forcée
-      triggerProfileModal(
-        "Votre mot de passe a été modifié avec succès ! Pour des raisons de sécurité, votre session va être fermée. Veuillez vous reconnecter avec vos nouveaux accès.",
-        true,
-        'mdi-lock-check-outline',
-        true // Active la déconnexion forcée lors du clic de fermeture de la modale
-      );
-    })
-    .catch(error => {
-      const errorMsg = error.response?.data?.error || "Mot de passe actuel incorrect ou validation échouée.";
-      triggerProfileModal(errorMsg, false, 'mdi-alert-octagon-outline', false);
-    });
 };
 
 onMounted(() => {
