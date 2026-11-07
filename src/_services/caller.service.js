@@ -1,11 +1,12 @@
-import axios from "axios";
+import axios from '@/api';
 import { accountService } from "./account.service";
 //import router from '@/router';
 
 const Axios = axios.create({
-    // Bascule automatiquement selon l'environnement (Local vs Vercel Production)
-    baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000'
+    // Checks standard NODE_ENV OR if running inside Vercel's hosting environment
+    baseURL: (process.env.NODE_ENV === 'production' || process.env.VERCEL === '1') ? '' : 'http://localhost:3000'
 });
+
 
 // interceptor pour injection token
 Axios.interceptors.request.use(
