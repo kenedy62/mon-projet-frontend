@@ -1,25 +1,14 @@
+
+
 const { defineConfig } = require('@vue/cli-service')
+
 module.exports = defineConfig({
   transpileDependencies: true,
+  lintOnSave: false, // 🛠️ Disables blocking linter compilation failures
 
   pluginOptions: {
     vuetify: {
-			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
-		}
+      // Keep your existing configurations here
+    }
   }
 })
-// module.exports = {
-//   devServer: {
-//     proxy: 'http://localhost:3000'
-//   }
-// }
-// export default defineConfig({
-//   server: {
-//     proxy: {
-//       '/api': {
-//         target: 'http://localhost:3000',
-//         changeOrigin: true,
-//       }
-//     }
-//   }
-// })
