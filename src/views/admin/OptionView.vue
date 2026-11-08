@@ -192,7 +192,9 @@
     </script>
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import axios from  '@/api';
+// 🎯 Nouveau chemin corrigé et sécurisé
+import Axios from '@/_services/caller.service';
+
 
 // Variables d'état existantes
 const optionDeleteDialog = ref(false); // Ouvre/ferme la modale de question (true/false)
@@ -229,7 +231,7 @@ const bienfaitsList = computed(() => options.value.filter(o => o.type === 'bienf
 
 // Récupérer toutes les options depuis la base de données
 const fetchOptions = () => {
-  axios.get('/api/options')
+  Axios.get('/api/options')
     .then(res => { options.value = res.data || []; })
     .catch(err => console.error(err));
 };
@@ -247,7 +249,7 @@ const submitOption = () => {
 
   if (isEditing.value) {
     // 🔄 SUCCÈS MODE MODIFICATION (PUT)
-    axios.put(`/api/options/${currentId.value}`, { name: newOption.value.name }, config)
+    Axios.put(`/api/options/${currentId.value}`, { name: newOption.value.name }, config)
       .then(() => {
         const typeLabel = newOption.value.type === 'ingredient' ? 'L\'ingrédient' : 'Le bienfait';
         cancelEdit();
@@ -262,7 +264,7 @@ const submitOption = () => {
       });
   } else {
     // 🔄 SUCCÈS MODE CRÉATION (POST)
-    axios.post('/api/options', payload, config)
+    Axios.post('/api/options', payload, config)
       .then(() => {
         const typeLabel = newOption.value.type === 'ingredient' ? 'Nouvel ingrédient' : 'Nouveau bienfait';
         const savedName = newOption.value.name;
@@ -320,7 +322,7 @@ const executeDeleteOption = () => {
   optionDeleteDialog.value = false; // Ferme la boîte de question rouge
 
   // Appel de votre API de suppression existante
-  axios.delete(`/api/options/${idToDelete}`, config)
+  Axios.delete(`/api/options/${idToDelete}`, config)
     .then(() => {
       fetchOptions(); // Recharge les deux listes dynamiquement à l'écran
       
