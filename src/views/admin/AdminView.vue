@@ -198,6 +198,8 @@ import { useRouter } from 'vue-router';
 // 🎯 Importation alignée avec votre instance centrale d'API
 import Axios from '@/_services/caller.service';
 
+
+
 // Initialisation du routeur pour les redirections
 const router = useRouter(); 
 
