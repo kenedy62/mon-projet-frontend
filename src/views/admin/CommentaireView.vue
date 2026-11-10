@@ -376,7 +376,7 @@ const modMessage = ref('');          // Holds the status text message response s
 
 // Récupérer la totalité des avis pour la modération (unchanged)
 const fetchAllComments = () => {
-  axios.get('/api/comments/admin/all')
+  Axios.get('/api/comments/admin/all')
     .then(response => {
       comments.value = response.data;
       console.log(response.data);
@@ -386,7 +386,7 @@ const fetchAllComments = () => {
 
 // Fonction déclenchée par vos boutons d'action - UPGRADED 🎯
 const updateStatus = (id, newStatus) => {
-  axios.put(`/api/comments/admin/moderate/${id}`, { status: newStatus })
+  Axios.put(`/api/comments/admin/moderate/${id}`, { status: newStatus })
     .then(() => {
       // 1. Configure the text message based on the chosen status string action (Approuvé / Rejeté)
       if (newStatus === 'approved') {
