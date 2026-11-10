@@ -484,10 +484,10 @@ export default {
 </script>
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue'; //  FIXED!
 import { useRoute, useRouter } from 'vue-router';
-// 🎯 Alignement sur votre instance centrale d'API dynamique
 import Axios from '@/_services/caller.service';
+
 
 
 // 2. INITIALISATION IMMÉDIATE DES INSTANCES (Pour éviter les erreurs "no-undef") 🎯
